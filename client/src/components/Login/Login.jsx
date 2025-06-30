@@ -10,7 +10,7 @@ const Login = (params) => {
   return (
     <div className='min-h-screen flex flex-col justify-center items-center '>
         <div className="p-5 bg-[rgba(0,0,0,0.3)] backdrop-blur-sm w-120 flex flex-col justify-center rounded-xl border gap-7">
-            <form action={()=>{console.log(params.loginRef.current[0].value,params.loginRef.current[1].value)}} ref={params.loginRef} className='flex flex-col gap-7 items-center justify-center '>
+            <form action={(e)=>{params.handleLogin(e)}} ref={params.loginRef} className='flex flex-col gap-7 items-center justify-center '>
                 <h1 className='text-3xl/10 mt-5 text-white font-semibold '>Login</h1>
                 <table className='border-separate border-spacing-y-5 border-spacing-x-0.5 w-full'>
                     <tbody >

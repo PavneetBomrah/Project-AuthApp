@@ -15,4 +15,10 @@ router.get('/verify/:token',(req,res)=>{
     }
 })
 
+router.get('/login',(req,res)=>{
+    const email = req.query.email
+    const password = req.query.password
+    
+})
+
 module.exports = router
