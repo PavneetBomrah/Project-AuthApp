@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const mongoose = require('mongoose')
 require('dotenv').config()
+const authRoutes = require('./routes/auth.js')
 
 const app = express()
 const PORT = process.env.PORT || 3000 
@@ -13,7 +14,7 @@ app.use(cors())
 app.get('/',(req,res)=>{
     res.send("App is Running")
 })
-
+app.use('/api/auth',authRoutes)
 
 
 app.listen(PORT,()=>{
