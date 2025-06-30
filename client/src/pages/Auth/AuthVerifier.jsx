@@ -1,36 +1,30 @@
-import { useState } from "react"
-import axios from 'axios'
+import { useEffect, useState } from "react";
+import axios from 'axios';
+
 const AuthVerifier = ({ children }) => {
+  const [auth, setAuth] = useState(null); // null = loading, false = fail, true = pass
+  const token = localStorage.getItem('token');
 
-    const [auth,setAuth] = useState(false)
-    const token = localStorage.getItem('token')
-    console.log(token)
-    const verifyAuth = async () =>{
-        if (token) {
-            await axios.get(`http://localhost:3020/api/auth/verify/${token}`)
-            .then(response =>
-                {
-                    response.status === 200 && setAuth(true)
-                    response.status === 401 && setAuth(false)                
-                }
-            )
-            .catch(error =>
-                {
-                    console.log(error)
-                    setAuth(false)
-                }
-            )
+  useEffect(() => {
+    const verifyAuth = async () => {
+      if (token) {
+        try {
+          const response = await axios.get(`http://localhost:3020/api/auth/verify/${token}`);
+          setAuth(response.status === 200);
+        } catch (error) {
+          console.log(error);
+          setAuth(false);
         }
-    }
-    verifyAuth()
-    if (!auth){
-                    // window.location.pathname = '/auth'
-                    return <>Auth Fail</>
-                }
-                else{
-                    return children
-                }
-    
-}
+      } else {
+        setAuth(false);
+      }
+    };
+    verifyAuth();
+  }, [token]);
 
-export default AuthVerifier
+  if (auth === null) return <>Loading...</>;
+  if (!auth) return window.location.pathname = '/auth'
+  return children;
+};
+
+export default AuthVerifier;
