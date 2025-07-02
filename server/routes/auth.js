@@ -6,8 +6,9 @@ router.get('/',(req,res)=>{
     res.send("auth route")
 })
 
-router.get('/verify/:token',(req,res)=>{
-    if(req.params.token == 'hola'){
+router.get('/verify/:token',async (req,res)=>{
+    const token = await authController.verify(req.params.token)
+    if(token.valid){
         res.status(200).send('Token Verified')
     }
     else{
@@ -16,8 +17,7 @@ router.get('/verify/:token',(req,res)=>{
 })
 
 router.get('/login',async (req,res)=>{
-    const email = req.query.email
-    const password = req.query.password
+    const {email,password} = req.query
     // const {user,token} = authController.login(email,password)
     const result = await authController.login(email, password)
     if (result.error) {
