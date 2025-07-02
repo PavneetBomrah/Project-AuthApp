@@ -19,12 +19,23 @@ const Auth = () => {
         password:password
       }
     }).then(response=>{
-      console.log(response.status,response.data)
+      console.log(response.status,response.json)
     })
   }
 
   const handleRegister = async () =>{
-
+    const name = regRef.current[0].value
+    const email = regRef.current[1].value
+    const password = regRef.current[2].value
+    axios.get('http://localhost:3020/api/auth/register',{
+      params:{
+        name:name,
+        email:email,
+        password:password
+      }
+    }).then(response=>{
+      console.log(response.status,response.data)
+    })
   }
 
 
